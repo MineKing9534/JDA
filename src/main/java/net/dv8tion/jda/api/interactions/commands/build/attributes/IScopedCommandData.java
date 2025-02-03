@@ -16,7 +16,15 @@
 
 package net.dv8tion.jda.api.interactions.commands.build.attributes;
 
+import net.dv8tion.jda.api.interactions.IntegrationType;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
+import net.dv8tion.jda.internal.utils.Checks;
+import org.jetbrains.annotations.UnmodifiableView;
+
 import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Builder for scoped Application Commands.
@@ -46,4 +54,90 @@ public interface IScopedCommandData extends INamedCommandData
      * @return True, if this command is restricted to guilds.
      */
     boolean isGuildOnly();
+
+    /**
+     * Sets the contexts in which this command can be used (Default: Guild and Bot DMs).
+     * <br>This only has an effect if this command is registered globally.
+     *
+     * @param  contexts
+     *         The contexts in which this command can be used
+     *
+     * @throws IllegalArgumentException
+     *         If {@code null} or no interaction context types were passed
+     *
+     * @return The builder instance, for chaining
+     */
+    @Nonnull
+    default IScopedCommandData setContexts(@Nonnull InteractionContextType... contexts)
+    {
+        Checks.notEmpty(contexts, "Contexts");
+        return setContexts(Arrays.asList(contexts));
+    }
+
+    /**
+     * Sets the contexts in which this command can be used (Default: Guild and Bot DMs).
+     * <br>This only has an effect if this command is registered globally.
+     *
+     * @param  contexts
+     *         The contexts in which this command can be used
+     *
+     * @throws IllegalArgumentException
+     *         If {@code null} or no interaction context types were passed
+     *
+     * @return The builder instance, for chaining
+     */
+    @Nonnull
+    IScopedCommandData setContexts(@Nonnull Collection<InteractionContextType> contexts);
+
+    /**
+     * Sets the integration types on which this command can be installed on (Default: Guilds).
+     * <br>This only has an effect if this command is registered globally.
+     *
+     * @param  integrationTypes
+     *         The integration types on which this command can be installed on
+     *
+     * @throws IllegalArgumentException
+     *         If {@code null} or no integration types were passed
+     *
+     * @return The builder instance, for chaining
+     */
+    @Nonnull
+    default IScopedCommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
+    {
+        Checks.notEmpty(integrationTypes, "Integration types");
+        return setIntegrationTypes(Arrays.asList(integrationTypes));
+    }
+
+    /**
+     * Sets the integration types on which this command can be installed on (Default: Guilds).
+     * <br>This only has an effect if this command is registered globally.
+     *
+     * @param  integrationTypes
+     *         The integration types on which this command can be installed on
+     *
+     * @throws IllegalArgumentException
+     *         If {@code null} or no integration types were passed
+     *
+     * @return The builder instance, for chaining
+     */
+    @Nonnull
+    IScopedCommandData setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes);
+
+    /**
+     * The contexts in which this command can be used.
+     *
+     * @return The contexts in which this command can be used
+     */
+    @Nonnull
+    @UnmodifiableView
+    Set<InteractionContextType> getContexts();
+
+    /**
+     * Gets the integration types on which this command can be installed on.
+     *
+     * @return The integration types on which this command can be installed on
+     */
+    @Nonnull
+    @UnmodifiableView
+    Set<IntegrationType> getIntegrationTypes();
 }

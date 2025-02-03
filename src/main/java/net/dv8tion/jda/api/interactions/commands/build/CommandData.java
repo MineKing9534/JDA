@@ -38,7 +38,6 @@ import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -78,89 +77,30 @@ public interface CommandData
     @Override
     CommandData setDefaultPermissions(@Nonnull DefaultMemberPermissions permission);
 
-    /**
-     * Sets whether this command is only usable in a guild (Default: false).
-     * <br>This only has an effect if this command is registered globally.
-     *
-     * @param  guildOnly
-     *         Whether to restrict this command to guilds
-     *
-     * @return The builder instance, for chaining
-     *
-     * @deprecated Replaced with {@link #setContexts(InteractionContextType...)}
-     */
     @Nonnull
     @Override
     @Deprecated
     @ReplaceWith("setContexts(InteractionContextType.GUILD)")
     CommandData setGuildOnly(boolean guildOnly);
 
-    /**
-     * Sets the contexts in which this command can be used (Default: Guild and Bot DMs).
-     * <br>This only has an effect if this command is registered globally.
-     *
-     * @param  contexts
-     *         The contexts in which this command can be used
-     *
-     * @throws IllegalArgumentException
-     *         If {@code null} or no interaction context types were passed
-     *
-     * @return The builder instance, for chaining
-     */
     @Nonnull
-    default CommandData setContexts(@Nonnull InteractionContextType... contexts)
-    {
-        Checks.notEmpty(contexts, "Contexts");
-        return setContexts(Arrays.asList(contexts));
+    @Override
+    default CommandData setContexts(@Nonnull InteractionContextType... contexts) {
+        return (CommandData) IScopedCommandData.super.setContexts(contexts);
     }
 
-    /**
-     * Sets the contexts in which this command can be used (Default: Guild and Bot DMs).
-     * <br>This only has an effect if this command is registered globally.
-     *
-     * @param  contexts
-     *         The contexts in which this command can be used
-     *
-     * @throws IllegalArgumentException
-     *         If {@code null} or no interaction context types were passed
-     *
-     * @return The builder instance, for chaining
-     */
     @Nonnull
+    @Override
     CommandData setContexts(@Nonnull Collection<InteractionContextType> contexts);
 
-    /**
-     * Sets the integration types on which this command can be installed on (Default: Guilds).
-     * <br>This only has an effect if this command is registered globally.
-     *
-     * @param  integrationTypes
-     *         The integration types on which this command can be installed on
-     *
-     * @throws IllegalArgumentException
-     *         If {@code null} or no integration types were passed
-     *
-     * @return The builder instance, for chaining
-     */
     @Nonnull
-    default CommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
-    {
-        Checks.notEmpty(integrationTypes, "Integration types");
-        return setIntegrationTypes(Arrays.asList(integrationTypes));
+    @Override
+    default CommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes) {
+        return (CommandData) IScopedCommandData.super.setIntegrationTypes(integrationTypes);
     }
 
-    /**
-     * Sets the integration types on which this command can be installed on (Default: Guilds).
-     * <br>This only has an effect if this command is registered globally.
-     *
-     * @param  integrationTypes
-     *         The integration types on which this command can be installed on
-     *
-     * @throws IllegalArgumentException
-     *         If {@code null} or no integration types were passed
-     *
-     * @return The builder instance, for chaining
-     */
     @Nonnull
+    @Override
     CommandData setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes);
 
     /**
@@ -227,24 +167,6 @@ public interface CommandData
     @Deprecated
     @ReplaceWith("getContexts().equals(EnumSet.of(InteractionContextType.GUILD))")
     boolean isGuildOnly();
-
-    /**
-     * The contexts in which this command can be used.
-     *
-     * @return The contexts in which this command can be used
-     */
-    @Nonnull
-    @UnmodifiableView
-    Set<InteractionContextType> getContexts();
-
-    /**
-     * Gets the integration types on which this command can be installed on.
-     *
-     * @return The integration types on which this command can be installed on
-     */
-    @Nonnull
-    @UnmodifiableView
-    Set<IntegrationType> getIntegrationTypes();
 
     /**
      * Whether this command should only be usable in NSFW (age-restricted) channels

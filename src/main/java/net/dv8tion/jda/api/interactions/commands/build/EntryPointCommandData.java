@@ -17,18 +17,23 @@
 package net.dv8tion.jda.api.interactions.commands.build;
 
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.IntegrationType;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.*;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
+import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.interactions.EntryPointCommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
+import net.dv8tion.jda.internal.utils.Helpers;
 import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -78,6 +83,26 @@ public interface EntryPointCommandData
     @Nonnull
     @Override
     EntryPointCommandData setGuildOnly(boolean guildOnly);
+
+    @Nonnull
+    @Override
+    default EntryPointCommandData setContexts(@Nonnull InteractionContextType... contexts) {
+        return (EntryPointCommandData) IScopedCommandData.super.setContexts(contexts);
+    }
+
+    @Nonnull
+    @Override
+    EntryPointCommandData setContexts(@Nonnull Collection<InteractionContextType> contexts);
+
+    @Nonnull
+    @Override
+    default EntryPointCommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes) {
+        return (EntryPointCommandData) IScopedCommandData.super.setIntegrationTypes(integrationTypes);
+    }
+
+    @Nonnull
+    @Override
+    EntryPointCommandData setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes);
 
     @Nonnull
     @Override
@@ -150,7 +175,6 @@ public interface EntryPointCommandData
         String name = object.getString("name");
         String description = object.getString("description");
         EntryPointCommandDataImpl command = new EntryPointCommandDataImpl(name, description);
-        command.setGuildOnly(!object.getBoolean("dm_permission", true));
         command.setNSFW(object.getBoolean("nsfw"));
 
         command.setDefaultPermissions(
@@ -158,6 +182,29 @@ public interface EntryPointCommandData
                         ? DefaultMemberPermissions.ENABLED
                         : DefaultMemberPermissions.enabledFor(object.getLong("default_member_permissions"))
         );
+
+        if (!object.isNull("contexts"))
+        {
+            command.setContexts(object.getArray("contexts")
+                    .stream(DataArray::getString)
+                    .map(InteractionContextType::fromKey)
+                    .collect(Helpers.toUnmodifiableEnumSet(InteractionContextType.class)));
+        }
+        else if (!object.isNull("dm_permission"))
+            command.setGuildOnly(!object.getBoolean("dm_permission"));
+        else
+            command.setContexts(Helpers.unmodifiableEnumSet(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
+
+        if (!object.isNull("integration_types"))
+        {
+            command.setIntegrationTypes(object.getArray("integration_types")
+                    .stream(DataArray::getString)
+                    .map(IntegrationType::fromKey)
+                    .collect(Helpers.toUnmodifiableEnumSet(IntegrationType.class)));
+        }
+        else
+            command.setIntegrationTypes(Helpers.unmodifiableEnumSet(IntegrationType.GUILD_INSTALL));
+
 
         command.setNameLocalizations(LocalizationUtils.mapFromProperty(object, "name_localizations"));
         command.setDescriptionLocalizations(LocalizationUtils.mapFromProperty(object, "description_localizations"));

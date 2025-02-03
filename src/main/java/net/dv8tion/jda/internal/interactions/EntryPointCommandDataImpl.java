@@ -17,6 +17,8 @@
 package net.dv8tion.jda.internal.interactions;
 
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.IntegrationType;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
@@ -27,9 +29,11 @@ import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.interactions.command.localization.LocalizationMapper;
 import net.dv8tion.jda.internal.interactions.mixin.attributes.IDescribedCommandDataMixin;
 import net.dv8tion.jda.internal.utils.Checks;
+import net.dv8tion.jda.internal.utils.Helpers;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescribedCommandDataMixin
 {
@@ -38,9 +42,10 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
     private final LocalizationMap nameLocalizations = new LocalizationMap(this::checkName);
     private final LocalizationMap descriptionLocalizations = new LocalizationMap(this::checkDescription);
 
-    private boolean guildOnly = false;
     private boolean nsfw = false;
     private DefaultMemberPermissions defaultMemberPermissions = DefaultMemberPermissions.ENABLED;
+    private EnumSet<InteractionContextType> contexts = EnumSet.of(InteractionContextType.GUILD, InteractionContextType.BOT_DM);
+    private EnumSet<IntegrationType> integrationTypes = EnumSet.of(IntegrationType.GUILD_INSTALL);
     private Handler handler;
 
     public EntryPointCommandDataImpl(@Nonnull String name, @Nonnull String description)
@@ -62,7 +67,8 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
                 .put("description", description)
                 .put("description_localizations", descriptionLocalizations)
                 .put("nsfw", nsfw)
-                .put("dm_permission", !guildOnly)
+                .put("contexts", contexts.stream().map(InteractionContextType::getType).collect(Collectors.toList()))
+                .put("integration_types", integrationTypes.stream().map(IntegrationType::getType).collect(Collectors.toList()))
                 .put("default_member_permissions", defaultMemberPermissions == DefaultMemberPermissions.ENABLED
                         ? null
                         : Long.toUnsignedString(defaultMemberPermissions.getPermissionsRaw()))
@@ -86,13 +92,37 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
     @Override
     public boolean isGuildOnly()
     {
-        return guildOnly;
+        return contexts.size() == 1 && contexts.contains(InteractionContextType.GUILD);
+    }
+
+    @Nonnull
+    @Override
+    public Set<InteractionContextType> getContexts()
+    {
+        return Collections.unmodifiableSet(contexts);
+    }
+
+    @Nonnull
+    @Override
+    public Set<IntegrationType> getIntegrationTypes()
+    {
+        return integrationTypes;
     }
 
     @Override
     public boolean isNSFW()
     {
         return nsfw;
+    }
+
+    @Nonnull
+    @Override
+    public EntryPointCommandDataImpl setGuildOnly(boolean guildOnly)
+    {
+        setContexts(guildOnly
+                ? EnumSet.of(InteractionContextType.GUILD)
+                : EnumSet.of(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
+        return this;
     }
 
     @Nonnull
@@ -106,9 +136,19 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setGuildOnly(boolean guildOnly)
+    public EntryPointCommandDataImpl setContexts(@Nonnull Collection<InteractionContextType> contexts)
     {
-        this.guildOnly = guildOnly;
+        Checks.notEmpty(contexts, "Contexts");
+        this.contexts = Helpers.copyEnumSet(InteractionContextType.class, contexts);
+        return this;
+    }
+
+    @Nonnull
+    @Override
+    public EntryPointCommandDataImpl setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes)
+    {
+        Checks.notEmpty(contexts, "Contexts");
+        this.integrationTypes = Helpers.copyEnumSet(IntegrationType.class, integrationTypes);
         return this;
     }
 
