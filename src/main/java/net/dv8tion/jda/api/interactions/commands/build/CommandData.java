@@ -24,7 +24,7 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IAgeRestrictedCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.INamedCommandData;
-import net.dv8tion.jda.api.interactions.commands.build.attributes.IRestrictedCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.attributes.IPermissionRestrictedCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IScopedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.utils.data.DataArray;
@@ -46,7 +46,7 @@ import java.util.Map;
  * @see Commands
  */
 public interface CommandData
-        extends INamedCommandData, IScopedCommandData, IRestrictedCommandData, IAgeRestrictedCommandData,
+        extends INamedCommandData, IScopedCommandData, IPermissionRestrictedCommandData, IAgeRestrictedCommandData,
         SerializableData
 {
     /**

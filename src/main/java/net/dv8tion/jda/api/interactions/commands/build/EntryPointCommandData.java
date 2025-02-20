@@ -45,7 +45,7 @@ import java.util.Map;
  * @see Commands#entryPoint(String, String)
  */
 public interface EntryPointCommandData
-        extends IDescribedCommandData, INamedCommandData, IScopedCommandData, IRestrictedCommandData,
+        extends IDescribedCommandData, INamedCommandData, IScopedCommandData, IPermissionRestrictedCommandData,
         IAgeRestrictedCommandData, SerializableData
 {
     @Nonnull

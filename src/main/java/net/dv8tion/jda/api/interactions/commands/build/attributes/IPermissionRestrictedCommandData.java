@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
  * @see net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData
  */
-public interface IRestrictedCommandData extends INamedCommandData
+public interface IPermissionRestrictedCommandData extends INamedCommandData
 {
     /**
      * Sets the {@link net.dv8tion.jda.api.Permission Permissions} that a user must have in a specific channel to be able to use this command.
@@ -44,7 +44,7 @@ public interface IRestrictedCommandData extends INamedCommandData
      * @see DefaultMemberPermissions#DISABLED
      */
     @Nonnull
-    IRestrictedCommandData setDefaultPermissions(@Nonnull DefaultMemberPermissions permission);
+    IPermissionRestrictedCommandData setDefaultPermissions(@Nonnull DefaultMemberPermissions permission);
 
     /**
      * Gets the {@link DefaultMemberPermissions} of this command.
