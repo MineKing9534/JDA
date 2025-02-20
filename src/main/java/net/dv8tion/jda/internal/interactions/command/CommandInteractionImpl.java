@@ -74,7 +74,7 @@ public class CommandInteractionImpl extends DeferrableInteractionImpl implements
 
     @Nonnull
     @Override
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
         return new LaunchActivityCallbackActionImpl(this);
     }

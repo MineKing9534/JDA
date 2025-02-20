@@ -95,7 +95,7 @@ public class ModalInteractionImpl extends DeferrableInteractionImpl implements M
 
     @Nonnull
     @Override
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
         return new LaunchActivityCallbackActionImpl(this);
     }

@@ -136,8 +136,8 @@ public class GenericCommandInteractionEvent extends GenericInteractionCreateEven
     @Nonnull
     @Override
     @CheckReturnValue
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
-        return getInteraction().replyWithLaunchedActivity();
+        return getInteraction().replyLaunchActivity();
     }
 }

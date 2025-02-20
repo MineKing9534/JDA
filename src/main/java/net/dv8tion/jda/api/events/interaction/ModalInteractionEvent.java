@@ -105,9 +105,9 @@ public class ModalInteractionEvent extends GenericInteractionCreateEvent impleme
     @Nonnull
     @Override
     @CheckReturnValue
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
-        return interaction.replyWithLaunchedActivity();
+        return interaction.replyLaunchActivity();
     }
 
     @Nonnull

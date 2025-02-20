@@ -139,8 +139,8 @@ public class GenericComponentInteractionCreateEvent extends GenericInteractionCr
     @Nonnull
     @Override
     @CheckReturnValue
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
-        return interaction.replyWithLaunchedActivity();
+        return interaction.replyLaunchActivity();
     }
 }

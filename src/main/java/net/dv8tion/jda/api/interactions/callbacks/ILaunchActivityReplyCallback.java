@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 /**
  * Callback which launches this app's activity.
  *
- * <p>Replying with {@link #replyWithLaunchedActivity()} will automatically acknowledge this interaction.
+ * <p>Replying with {@link #replyLaunchActivity()} will automatically acknowledge this interaction.
  *
  * <p><b>Note:</b>This interaction requires <a href="https://discord.com/developers/docs/activities/overview" target="_blank">activities</a> to be enabled.
  */
@@ -37,5 +37,5 @@ public interface ILaunchActivityReplyCallback extends IDeferrableCallback
      */
     @Nonnull
     @CheckReturnValue
-    LaunchActivityCallbackAction replyWithLaunchedActivity();
+    LaunchActivityCallbackAction replyLaunchActivity();
 }

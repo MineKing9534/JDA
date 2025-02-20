@@ -122,7 +122,7 @@ public abstract class ComponentInteractionImpl extends DeferrableInteractionImpl
 
     @Nonnull
     @Override
-    public LaunchActivityCallbackAction replyWithLaunchedActivity()
+    public LaunchActivityCallbackAction replyLaunchActivity()
     {
         return new LaunchActivityCallbackActionImpl(this);
     }
