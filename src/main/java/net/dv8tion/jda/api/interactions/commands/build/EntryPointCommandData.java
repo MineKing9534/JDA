@@ -227,8 +227,9 @@ public interface EntryPointCommandData
          */
         APP_HANDLER(1),
         /**
-         * Lets Discord handle the activity start,
-         * and sends a follow-up message without coordinating with this app.
+         * Lets Discord handle the activity interaction automatically
+         * by launching the activity associated with this app,
+         * and sends a follow-up message into the chat to indicate that an activity was launched.
          */
         DISCORD_LAUNCH_ACTIVITY(2);
 
