@@ -27,19 +27,17 @@ import net.dv8tion.jda.api.interactions.commands.build.attributes.INamedCommandD
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IRestrictedCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IScopedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
 import net.dv8tion.jda.internal.utils.Helpers;
 import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
-import org.jetbrains.annotations.UnmodifiableView;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Builder for Application Commands.
