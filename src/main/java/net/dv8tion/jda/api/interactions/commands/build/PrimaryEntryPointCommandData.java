@@ -125,6 +125,8 @@ public interface PrimaryEntryPointCommandData
     /**
      * Converts the provided {@link Command} into a {@link PrimaryEntryPointCommandData} instance.
      *
+     * <p>This only works if the command is of type {@link Command.Type#PRIMARY_ENTRY_POINT}!
+     *
      * @param  command
      *         The command to convert
      *
