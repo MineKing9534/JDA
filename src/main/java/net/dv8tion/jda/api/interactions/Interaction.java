@@ -48,7 +48,7 @@ import java.util.List;
  *     <br>Which supports choice suggestions for auto-complete interactions via {@link IAutoCompleteCallback#replyChoices(Command.Choice...)}</li>
  *     <li>{@link IModalCallback}
  *     <br>Which supports replying using a {@link Modal} via {@link IModalCallback#replyModal(Modal)}</li>
- *     <li>{@link ILaunchActivityReplyCallback}
+ *     <li>{@link ILaunchActivityCallback}
  *     <br>Which will launch the app's activity</li>
  * </ul>
  *

@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.requests.FluentRestAction;
 /**
  * An {@link InteractionCallbackAction} that can be used to launch an activity.
  *
- * @see net.dv8tion.jda.api.interactions.callbacks.ILaunchActivityReplyCallback
+ * @see net.dv8tion.jda.api.interactions.callbacks.ILaunchActivityCallback
  */
 public interface LaunchActivityCallbackAction extends InteractionCallbackAction<Void>, FluentRestAction<Void, LaunchActivityCallbackAction>
 {

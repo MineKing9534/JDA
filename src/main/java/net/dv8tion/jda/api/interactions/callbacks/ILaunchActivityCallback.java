@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
  *
  * <p><b>Note:</b>This interaction requires <a href="https://discord.com/developers/docs/activities/overview" target="_blank">activities</a> to be enabled.
  */
-public interface ILaunchActivityReplyCallback extends IDeferrableCallback
+public interface ILaunchActivityCallback extends IDeferrableCallback
 {
     /**
      * Launches this app's activity and acknowledges this interaction.

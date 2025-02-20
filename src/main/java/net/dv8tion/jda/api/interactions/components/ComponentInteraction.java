@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
  * <p>Instead of {@link #deferReply()} and {@link #reply(String)} you can use {@link #deferEdit()} and {@link #editMessage(String)} with these interactions!
  * <b>You can only acknowledge an interaction once!</b>
  */
-public interface ComponentInteraction extends IReplyCallback, IMessageEditCallback, IModalCallback, IPremiumRequiredReplyCallback, ILaunchActivityReplyCallback
+public interface ComponentInteraction extends IReplyCallback, IMessageEditCallback, IModalCallback, IPremiumRequiredReplyCallback, ILaunchActivityCallback
 {
     /**
      * The custom component ID provided to the component when it was originally created.

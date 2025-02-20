@@ -16,7 +16,7 @@
 
 package net.dv8tion.jda.internal.requests.restaction.interactions;
 
-import net.dv8tion.jda.api.interactions.callbacks.ILaunchActivityReplyCallback;
+import net.dv8tion.jda.api.interactions.callbacks.ILaunchActivityCallback;
 import net.dv8tion.jda.api.requests.restaction.interactions.LaunchActivityCallbackAction;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.interactions.InteractionImpl;
@@ -28,7 +28,7 @@ import java.util.function.BooleanSupplier;
 public class LaunchActivityCallbackActionImpl extends InteractionCallbackImpl<Void> implements LaunchActivityCallbackAction
 {
 
-    public LaunchActivityCallbackActionImpl(ILaunchActivityReplyCallback interaction)
+    public LaunchActivityCallbackActionImpl(ILaunchActivityCallback interaction)
     {
         super((InteractionImpl) interaction);
     }
