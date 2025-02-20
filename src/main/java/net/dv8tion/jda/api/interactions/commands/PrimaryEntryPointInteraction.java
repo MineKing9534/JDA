@@ -18,7 +18,7 @@ package net.dv8tion.jda.api.interactions.commands;
 
 import net.dv8tion.jda.api.entities.channel.unions.GuildMessageChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
 
 import javax.annotation.Nonnull;
@@ -27,9 +27,9 @@ import javax.annotation.Nonnull;
  * Interaction to launch your app's activity.
  *
  * <p><b>Note:</b> This interaction requires <a href="https://discord.com/developers/docs/activities/overview" target="_blank">activities</a> to be enabled,
- * and an {@link GlobalCommandListUpdateAction#setEntryPointCommand(EntryPointCommandData) entry point}
- * with its {@link EntryPointCommandData#setHandler(EntryPointCommandData.Handler) handler}
- * set to {@link EntryPointCommandData.Handler#APP_HANDLER APP_HANDLER} to be configured.
+ * and an {@link GlobalCommandListUpdateAction#setPrimaryEntryPointCommand(PrimaryEntryPointCommandData) entry point}
+ * with its {@link PrimaryEntryPointCommandData#setHandler(PrimaryEntryPointCommandData.Handler) handler}
+ * set to {@link PrimaryEntryPointCommandData.Handler#APP_HANDLER APP_HANDLER} to be configured.
  */
 public interface PrimaryEntryPointInteraction extends CommandInteraction
 {

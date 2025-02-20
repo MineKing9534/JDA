@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
-import net.dv8tion.jda.internal.interactions.EntryPointCommandDataImpl;
+import net.dv8tion.jda.internal.interactions.PrimaryEntryPointCommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
 
 import javax.annotation.Nonnull;
@@ -131,7 +131,7 @@ public class Commands
     }
 
     /**
-     * Create an activity entry point command builder.
+     * Create a primary entry point command builder for your app's activity.
      *
      * <p>Only one entry point can be created per app.
      *
@@ -147,19 +147,19 @@ public class Commands
      *             <li>The description must be 1-100 characters long</li>
      *         </ul>
      *
-     * @return {@link EntryPointCommandData} builder for the app's activity entry point command
+     * @return {@link PrimaryEntryPointCommandData} builder for the app's activity entry point command
      */
     @Nonnull
-    public static EntryPointCommandData entryPoint(@Nonnull String name, @Nonnull String description)
+    public static PrimaryEntryPointCommandData primaryEntryPoint(@Nonnull String name, @Nonnull String description)
     {
-        return new EntryPointCommandDataImpl(name, description);
+        return new PrimaryEntryPointCommandDataImpl(name, description);
     }
 
     /**
      * Parses the provided serialization back into an CommandData instance.
      * <br>This is the reverse function for {@link CommandData#toData()}.
      *
-     * <p><b>Note:</b> This does not take into account {@link #entryPoint(String, String) entry point commands}.
+     * <p><b>Note:</b> This does not take into account {@link #primaryEntryPoint(String, String) entry point commands}.
      *
      * @param  array
      *         Array of serialized {@link DataObject} representing the commands
@@ -173,7 +173,7 @@ public class Commands
      *
      * @see    CommandData#fromData(DataObject)
      * @see    SlashCommandData#fromData(DataObject)
-     * @see    EntryPointCommandData#fromData(DataObject)
+     * @see    PrimaryEntryPointCommandData#fromData(DataObject)
      */
     @Nonnull
     public static List<CommandData> fromList(@Nonnull DataArray array)
@@ -188,7 +188,7 @@ public class Commands
      * Parses the provided serialization back into an CommandData instance.
      * <br>This is the reverse function for {@link CommandData#toData()}.
      *
-     * <p><b>Note:</b> This does not take into account {@link #entryPoint(String, String) entry point commands}.
+     * <p><b>Note:</b> This does not take into account {@link #primaryEntryPoint(String, String) entry point commands}.
      *
      * @param  collection
      *         Collection of serialized {@link DataObject} representing the commands
@@ -202,7 +202,7 @@ public class Commands
      *
      * @see    CommandData#fromData(DataObject)
      * @see    SlashCommandData#fromData(DataObject)
-     * @see    EntryPointCommandData#fromData(DataObject)
+     * @see    PrimaryEntryPointCommandData#fromData(DataObject)
      */
     @Nonnull
     public static List<CommandData> fromList(@Nonnull Collection<? extends DataObject> collection)

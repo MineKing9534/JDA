@@ -18,6 +18,7 @@ package net.dv8tion.jda.api.interactions.commands.build.attributes;
 
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  *
  * @see net.dv8tion.jda.api.interactions.commands.build.CommandData
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
- * @see net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData
+ * @see PrimaryEntryPointCommandData
  */
 public interface INamedCommandData
 {

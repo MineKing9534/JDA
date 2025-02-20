@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
 import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -61,7 +61,7 @@ public class CommandImpl implements Command
     private final String name, description;
     private final LocalizationMap nameLocalizations;
     private final LocalizationMap descriptionLocalizations;
-    private final EntryPointCommandData.Handler handler;
+    private final PrimaryEntryPointCommandData.Handler handler;
     private final List<Command.Option> options;
     private final List<Command.SubcommandGroup> groups;
     private final List<Command.Subcommand> subcommands;
@@ -81,7 +81,7 @@ public class CommandImpl implements Command
         this.description = json.getString("description", "");
         this.descriptionLocalizations = LocalizationUtils.unmodifiableFromProperty(json, "description_localizations");
         this.handler = json.hasKey("handler")
-                ? EntryPointCommandData.Handler.fromValue(json.getLong("handler"))
+                ? PrimaryEntryPointCommandData.Handler.fromValue(json.getLong("handler"))
                 : null;
         this.type = Command.Type.fromId(json.getInt("type", 1));
         this.id = json.getUnsignedLong("id");
@@ -219,7 +219,7 @@ public class CommandImpl implements Command
 
     @Nullable
     @Override
-    public EntryPointCommandData.Handler getHandler()
+    public PrimaryEntryPointCommandData.Handler getHandler()
     {
         return handler;
     }

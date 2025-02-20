@@ -16,6 +16,8 @@
 
 package net.dv8tion.jda.api.interactions.commands.build.attributes;
 
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -23,7 +25,7 @@ import javax.annotation.Nonnull;
  *
  * @see net.dv8tion.jda.api.interactions.commands.build.CommandData
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
- * @see net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData
+ * @see PrimaryEntryPointCommandData
  */
 public interface IAgeRestrictedCommandData extends INamedCommandData
 {

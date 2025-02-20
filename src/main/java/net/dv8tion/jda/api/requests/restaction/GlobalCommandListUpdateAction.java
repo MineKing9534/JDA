@@ -17,7 +17,7 @@
 package net.dv8tion.jda.api.requests.restaction;
 
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.requests.RestAction;
 
 import javax.annotation.CheckReturnValue;
@@ -30,7 +30,7 @@ import java.util.function.BooleanSupplier;
 /**
  * Specialized {@link RestAction} used to replace existing commands globally.
  * <br>Any commands that currently exist and are not listed through {@link #addCommands(CommandData...)} will be <b>DELETED</b>!
- * <br>If your bot has activities enabled, you <b>must</b> {@link #setEntryPointCommand(EntryPointCommandData) set your entry point command}.
+ * <br>If your bot has activities enabled, you <b>must</b> {@link #setPrimaryEntryPointCommand(PrimaryEntryPointCommandData) set your entry point command}.
  *
  * <p>This operation is idempotent. Commands will persist between restarts of your bot, you only have to create a command once.
  */
@@ -78,5 +78,5 @@ public interface GlobalCommandListUpdateAction extends CommandListUpdateAction
      */
     @Nonnull
     @CheckReturnValue
-    GlobalCommandListUpdateAction setEntryPointCommand(@Nonnull EntryPointCommandData entryPoint);
+    GlobalCommandListUpdateAction setPrimaryEntryPointCommand(@Nonnull PrimaryEntryPointCommandData entryPoint);
 }

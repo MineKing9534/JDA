@@ -19,7 +19,7 @@ package net.dv8tion.jda.internal.requests.restaction;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.requests.Route;
 import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
 import net.dv8tion.jda.api.utils.data.DataArray;
@@ -38,7 +38,7 @@ public class GlobalCommandListUpdateActionImpl extends CommandListUpdateActionIm
 {
     private final List<CommandData> commands = new ArrayList<>();
     private int slash, user, message;
-    private EntryPointCommandData entryPoint;
+    private PrimaryEntryPointCommandData primaryEntryPoint;
 
     public GlobalCommandListUpdateActionImpl(JDA api, Route.CompiledRoute route)
     {
@@ -129,9 +129,9 @@ public class GlobalCommandListUpdateActionImpl extends CommandListUpdateActionIm
 
     @Nonnull
     @Override
-    public GlobalCommandListUpdateAction setEntryPointCommand(@Nonnull EntryPointCommandData entryPoint)
+    public GlobalCommandListUpdateAction setPrimaryEntryPointCommand(@Nonnull PrimaryEntryPointCommandData primaryEntryPoint)
     {
-        this.entryPoint = entryPoint;
+        this.primaryEntryPoint = primaryEntryPoint;
         return this;
     }
 
@@ -140,8 +140,8 @@ public class GlobalCommandListUpdateActionImpl extends CommandListUpdateActionIm
     {
         DataArray json = DataArray.empty();
         json.addAll(commands);
-        if (entryPoint != null)
-            json.add(entryPoint);
+        if (primaryEntryPoint != null)
+            json.add(primaryEntryPoint);
         return getRequestBody(json);
     }
 }

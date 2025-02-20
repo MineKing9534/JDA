@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
 import net.dv8tion.jda.api.utils.data.DataArray;
@@ -37,7 +37,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescribedCommandDataMixin
+public class PrimaryEntryPointCommandDataImpl implements PrimaryEntryPointCommandData, IDescribedCommandDataMixin
 {
     protected String name, description = "";
     private LocalizationMapper localizationMapper;
@@ -50,7 +50,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
     private DefaultMemberPermissions defaultMemberPermissions = DefaultMemberPermissions.ENABLED;
     private Handler handler;
 
-    public EntryPointCommandDataImpl(@Nonnull String name, @Nonnull String description)
+    public PrimaryEntryPointCommandDataImpl(@Nonnull String name, @Nonnull String description)
     {
         setName(name);
         setDescription(description);
@@ -119,7 +119,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setDefaultPermissions(@Nonnull DefaultMemberPermissions permissions)
+    public PrimaryEntryPointCommandDataImpl setDefaultPermissions(@Nonnull DefaultMemberPermissions permissions)
     {
         Checks.notNull(permissions, "Permissions");
         this.defaultMemberPermissions = permissions;
@@ -128,7 +128,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setGuildOnly(boolean guildOnly)
+    public PrimaryEntryPointCommandDataImpl setGuildOnly(boolean guildOnly)
     {
         setContexts(guildOnly
                 ? EnumSet.of(InteractionContextType.GUILD)
@@ -138,7 +138,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setContexts(@Nonnull Collection<InteractionContextType> contexts)
+    public PrimaryEntryPointCommandDataImpl setContexts(@Nonnull Collection<InteractionContextType> contexts)
     {
         Checks.notEmpty(contexts, "Contexts");
         this.contexts = Helpers.copyEnumSet(InteractionContextType.class, contexts);
@@ -147,7 +147,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes)
+    public PrimaryEntryPointCommandDataImpl setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes)
     {
         Checks.notEmpty(contexts, "Contexts");
         this.integrationTypes = Helpers.copyEnumSet(IntegrationType.class, integrationTypes);
@@ -156,7 +156,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setNSFW(boolean nsfw)
+    public PrimaryEntryPointCommandDataImpl setNSFW(boolean nsfw)
     {
         this.nsfw = nsfw;
         return this;
@@ -164,7 +164,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction) {
+    public PrimaryEntryPointCommandDataImpl setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction) {
         Checks.notNull(localizationFunction, "Localization function");
 
         this.localizationMapper = LocalizationMapper.fromFunction(localizationFunction);
@@ -173,7 +173,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setName(@Nonnull String name)
+    public PrimaryEntryPointCommandDataImpl setName(@Nonnull String name)
     {
         checkName(name);
         this.name = name;
@@ -182,7 +182,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name)
+    public PrimaryEntryPointCommandDataImpl setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name)
     {
         //Checks are done in LocalizationMap
         nameLocalizations.setTranslation(locale, name);
@@ -191,7 +191,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setNameLocalizations(@Nonnull Map<DiscordLocale, String> map)
+    public PrimaryEntryPointCommandDataImpl setNameLocalizations(@Nonnull Map<DiscordLocale, String> map)
     {
         nameLocalizations.setTranslations(map);
         return this;
@@ -199,7 +199,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setDescription(@Nonnull String description)
+    public PrimaryEntryPointCommandDataImpl setDescription(@Nonnull String description)
     {
         checkDescription(description);
         this.description = description;
@@ -208,7 +208,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setDescriptionLocalization(@Nonnull DiscordLocale locale, @Nonnull String description)
+    public PrimaryEntryPointCommandDataImpl setDescriptionLocalization(@Nonnull DiscordLocale locale, @Nonnull String description)
     {
         //Checks are done in LocalizationMap
         descriptionLocalizations.setTranslation(locale, description);
@@ -217,7 +217,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandDataImpl setDescriptionLocalizations(@Nonnull Map<DiscordLocale, String> map)
+    public PrimaryEntryPointCommandDataImpl setDescriptionLocalizations(@Nonnull Map<DiscordLocale, String> map)
     {
         descriptionLocalizations.setTranslations(map);
         return this;
@@ -225,7 +225,7 @@ public class EntryPointCommandDataImpl implements EntryPointCommandData, IDescri
 
     @Nonnull
     @Override
-    public EntryPointCommandData setHandler(@Nonnull Handler handler)
+    public PrimaryEntryPointCommandData setHandler(@Nonnull Handler handler)
     {
         this.handler = handler;
         return this;

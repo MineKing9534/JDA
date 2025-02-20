@@ -19,6 +19,7 @@ package net.dv8tion.jda.api.interactions.commands.build.attributes;
 import net.dv8tion.jda.annotations.ReplaceWith;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
+import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.internal.utils.Checks;
 import org.jetbrains.annotations.UnmodifiableView;
 
@@ -32,7 +33,7 @@ import java.util.Set;
  *
  * @see net.dv8tion.jda.api.interactions.commands.build.CommandData
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
- * @see net.dv8tion.jda.api.interactions.commands.build.EntryPointCommandData
+ * @see PrimaryEntryPointCommandData
  */
 public interface IScopedCommandData extends INamedCommandData
 {

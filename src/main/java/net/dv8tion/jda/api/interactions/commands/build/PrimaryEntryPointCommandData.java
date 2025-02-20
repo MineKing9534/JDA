@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.data.SerializableData;
-import net.dv8tion.jda.internal.interactions.EntryPointCommandDataImpl;
+import net.dv8tion.jda.internal.interactions.PrimaryEntryPointCommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
 import net.dv8tion.jda.internal.utils.Helpers;
 import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
@@ -38,77 +38,77 @@ import java.util.Map;
 
 /**
  * Builder for Entry Point Commands.
- * <br>Use {@link Commands#entryPoint(String, String)} to create instances of this interface.
+ * <br>Use {@link Commands#primaryEntryPoint(String, String)} to create instances of this interface.
  *
- * <p>This command can only be added via {@link GlobalCommandListUpdateAction#setEntryPointCommand(EntryPointCommandData)}.
+ * <p>This command can only be added via {@link GlobalCommandListUpdateAction#setPrimaryEntryPointCommand(PrimaryEntryPointCommandData)}.
  *
- * @see Commands#entryPoint(String, String)
+ * @see Commands#primaryEntryPoint(String, String)
  */
-public interface EntryPointCommandData
+public interface PrimaryEntryPointCommandData
         extends IDescribedCommandData, INamedCommandData, IScopedCommandData, IPermissionRestrictedCommandData,
         IAgeRestrictedCommandData, SerializableData
 {
     @Nonnull
     @Override
-    EntryPointCommandData setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction);
+    PrimaryEntryPointCommandData setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction);
 
     @Nonnull
     @Override
-    EntryPointCommandData setName(@Nonnull String name);
+    PrimaryEntryPointCommandData setName(@Nonnull String name);
 
     @Nonnull
     @Override
-    EntryPointCommandData setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name);
+    PrimaryEntryPointCommandData setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name);
 
     @Nonnull
     @Override
-    EntryPointCommandData setNameLocalizations(@Nonnull Map<DiscordLocale, String> map);
+    PrimaryEntryPointCommandData setNameLocalizations(@Nonnull Map<DiscordLocale, String> map);
 
     @Nonnull
     @Override
-    EntryPointCommandData setDescription(@Nonnull String description);
+    PrimaryEntryPointCommandData setDescription(@Nonnull String description);
 
     @Nonnull
     @Override
-    EntryPointCommandData setDescriptionLocalization(@Nonnull DiscordLocale locale, @Nonnull String description);
+    PrimaryEntryPointCommandData setDescriptionLocalization(@Nonnull DiscordLocale locale, @Nonnull String description);
 
     @Nonnull
     @Override
-    EntryPointCommandData setDescriptionLocalizations(@Nonnull Map<DiscordLocale, String> map);
+    PrimaryEntryPointCommandData setDescriptionLocalizations(@Nonnull Map<DiscordLocale, String> map);
 
     @Nonnull
     @Override
-    EntryPointCommandData setDefaultPermissions(@Nonnull DefaultMemberPermissions permission);
+    PrimaryEntryPointCommandData setDefaultPermissions(@Nonnull DefaultMemberPermissions permission);
 
     @Nonnull
     @Override
-    EntryPointCommandData setGuildOnly(boolean guildOnly);
+    PrimaryEntryPointCommandData setGuildOnly(boolean guildOnly);
 
     @Nonnull
     @Override
-    default EntryPointCommandData setContexts(@Nonnull InteractionContextType... contexts)
+    default PrimaryEntryPointCommandData setContexts(@Nonnull InteractionContextType... contexts)
     {
-        return (EntryPointCommandData) IScopedCommandData.super.setContexts(contexts);
+        return (PrimaryEntryPointCommandData) IScopedCommandData.super.setContexts(contexts);
     }
 
     @Nonnull
     @Override
-    EntryPointCommandData setContexts(@Nonnull Collection<InteractionContextType> contexts);
+    PrimaryEntryPointCommandData setContexts(@Nonnull Collection<InteractionContextType> contexts);
 
     @Nonnull
     @Override
-    default EntryPointCommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
+    default PrimaryEntryPointCommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
     {
-        return (EntryPointCommandData) IScopedCommandData.super.setIntegrationTypes(integrationTypes);
+        return (PrimaryEntryPointCommandData) IScopedCommandData.super.setIntegrationTypes(integrationTypes);
     }
 
     @Nonnull
     @Override
-    EntryPointCommandData setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes);
+    PrimaryEntryPointCommandData setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes);
 
     @Nonnull
     @Override
-    EntryPointCommandData setNSFW(boolean nsfw);
+    PrimaryEntryPointCommandData setNSFW(boolean nsfw);
 
     /**
      * Sets the handler of this entry point command.
@@ -120,10 +120,10 @@ public interface EntryPointCommandData
      * @return This builder instance, for chaining
      */
     @Nonnull
-    EntryPointCommandData setHandler(@Nonnull Handler handler);
+    PrimaryEntryPointCommandData setHandler(@Nonnull Handler handler);
 
     /**
-     * Converts the provided {@link Command} into a {@link EntryPointCommandData} instance.
+     * Converts the provided {@link Command} into a {@link PrimaryEntryPointCommandData} instance.
      *
      * @param  command
      *         The command to convert
@@ -131,17 +131,17 @@ public interface EntryPointCommandData
      * @throws IllegalArgumentException
      *         If null is provided or the command has illegal configuration
      *
-     * @return An instance of {@link EntryPointCommandData}
+     * @return An instance of {@link PrimaryEntryPointCommandData}
      */
     @Nonnull
     @SuppressWarnings("DataFlowIssue") // Handler cannot be null if command type is correct
-    static EntryPointCommandData fromCommand(@Nonnull Command command)
+    static PrimaryEntryPointCommandData fromCommand(@Nonnull Command command)
     {
         Checks.notNull(command, "Command");
         if (command.getType() != Command.Type.PRIMARY_ENTRY_POINT)
             throw new IllegalArgumentException("Cannot convert command of type " + command.getType() + " to EntryPointCommandData!");
 
-        EntryPointCommandDataImpl data = new EntryPointCommandDataImpl(command.getName(), command.getDescription());
+        PrimaryEntryPointCommandDataImpl data = new PrimaryEntryPointCommandDataImpl(command.getName(), command.getDescription());
         data.setContexts(command.getContexts());
         data.setIntegrationTypes(command.getIntegrationTypes());
         data.setNSFW(command.isNSFW());
@@ -154,8 +154,8 @@ public interface EntryPointCommandData
     }
 
     /**
-     * Parses the provided serialization back into a {@link EntryPointCommandData} instance.
-     * <br>This is the reverse function for {@link EntryPointCommandData#toData()}.
+     * Parses the provided serialization back into a {@link PrimaryEntryPointCommandData} instance.
+     * <br>This is the reverse function for {@link PrimaryEntryPointCommandData#toData()}.
      *
      * @param  object
      *         The serialized {@link DataObject} representing the command
@@ -165,10 +165,10 @@ public interface EntryPointCommandData
      * @throws IllegalArgumentException
      *         If any of the values are failing the respective checks such as length
      *
-     * @return The parsed {@link EntryPointCommandData} instance, which can be further configured through setters
+     * @return The parsed {@link PrimaryEntryPointCommandData} instance, which can be further configured through setters
      */
     @Nonnull
-    static EntryPointCommandData fromData(@Nonnull DataObject object)
+    static PrimaryEntryPointCommandData fromData(@Nonnull DataObject object)
     {
         Checks.notNull(object, "DataObject");
 
@@ -177,7 +177,7 @@ public interface EntryPointCommandData
 
         String name = object.getString("name");
         String description = object.getString("description");
-        EntryPointCommandDataImpl command = new EntryPointCommandDataImpl(name, description);
+        PrimaryEntryPointCommandDataImpl command = new PrimaryEntryPointCommandDataImpl(name, description);
         if (!object.isNull("contexts"))
         {
             command.setContexts(object.getArray("contexts")
