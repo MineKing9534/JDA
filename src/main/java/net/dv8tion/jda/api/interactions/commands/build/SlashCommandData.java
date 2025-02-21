@@ -29,8 +29,6 @@ import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
-import net.dv8tion.jda.internal.utils.Helpers;
-import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
 import org.jetbrains.annotations.Unmodifiable;
 
 import javax.annotation.Nonnull;
@@ -609,59 +607,29 @@ public interface SlashCommandData extends CommandData, IDescribedCommandData
         Checks.notNull(object, "DataObject");
         String name = object.getString("name");
         Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
-        if (commandType != Command.Type.SLASH)
-            throw new IllegalArgumentException("Cannot convert command of type " + commandType + " to SlashCommandData!");
+        Checks.check(commandType == Command.Type.SLASH, "Cannot convert command '" + name + "' of type " + commandType + " to SlashCommandData!");
 
-        String description = object.getString("description");
+        CommandDataImpl data = new CommandDataImpl(name, "");
+
+        CommandDataImpl.applyBaseData(data, object);
+        CommandDataImpl.applyDescribedCommandData(data, object);
+
         DataArray options = object.optArray("options").orElseGet(DataArray::empty);
-        CommandDataImpl command = new CommandDataImpl(name, description);
-        if (!object.isNull("contexts"))
-        {
-            command.setContexts(object.getArray("contexts")
-                    .stream(DataArray::getString)
-                    .map(InteractionContextType::fromKey)
-                    .collect(Helpers.toUnmodifiableEnumSet(InteractionContextType.class)));
-        }
-        else if (!object.isNull("dm_permission"))
-            command.setGuildOnly(!object.getBoolean("dm_permission"));
-        else
-            command.setContexts(Helpers.unmodifiableEnumSet(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
-
-        if (!object.isNull("integration_types"))
-        {
-            command.setIntegrationTypes(object.getArray("integration_types")
-                    .stream(DataArray::getString)
-                    .map(IntegrationType::fromKey)
-                    .collect(Helpers.toUnmodifiableEnumSet(IntegrationType.class)));
-        }
-        else
-            command.setIntegrationTypes(Helpers.unmodifiableEnumSet(IntegrationType.GUILD_INSTALL));
-
-        command.setNSFW(object.getBoolean("nsfw"));
-
-        command.setDefaultPermissions(
-                object.isNull("default_member_permissions")
-                        ? DefaultMemberPermissions.ENABLED
-                        : DefaultMemberPermissions.enabledFor(object.getLong("default_member_permissions"))
-        );
-
-        command.setNameLocalizations(LocalizationUtils.mapFromProperty(object, "name_localizations"));
-        command.setDescriptionLocalizations(LocalizationUtils.mapFromProperty(object, "description_localizations"));
         options.stream(DataArray::getObject).forEach(opt ->
         {
             OptionType type = OptionType.fromKey(opt.getInt("type"));
             switch (type)
             {
             case SUB_COMMAND:
-                command.addSubcommands(SubcommandData.fromData(opt));
+                data.addSubcommands(SubcommandData.fromData(opt));
                 break;
             case SUB_COMMAND_GROUP:
-                command.addSubcommandGroups(SubcommandGroupData.fromData(opt));
+                data.addSubcommandGroups(SubcommandGroupData.fromData(opt));
                 break;
             default:
-                command.addOptions(OptionData.fromData(opt));
+                data.addOptions(OptionData.fromData(opt));
             }
         });
-        return command;
+        return data;
     }
 }

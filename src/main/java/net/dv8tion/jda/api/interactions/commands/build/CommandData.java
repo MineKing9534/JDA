@@ -18,7 +18,6 @@ package net.dv8tion.jda.api.interactions.commands.build;
 
 import net.dv8tion.jda.annotations.ReplaceWith;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
-import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -27,13 +26,10 @@ import net.dv8tion.jda.api.interactions.commands.build.attributes.INamedCommandD
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IPermissionRestrictedCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IScopedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
-import net.dv8tion.jda.internal.utils.Helpers;
-import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -139,45 +135,24 @@ public interface CommandData
     static CommandData fromData(@Nonnull DataObject object)
     {
         Checks.notNull(object, "DataObject");
-        String name = object.getString("name");
-        Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
-        if (commandType != Command.Type.SLASH)
+
+        final int rawType = object.getInt("type", 1);
+        Command.Type commandType = Command.Type.fromId(rawType);
+        switch (commandType)
         {
-            CommandDataImpl data = new CommandDataImpl(commandType, name);
-            if (!object.isNull("default_member_permissions"))
-            {
-                long defaultPermissions = object.getLong("default_member_permissions");
-                data.setDefaultPermissions(defaultPermissions == 0 ? DefaultMemberPermissions.DISABLED : DefaultMemberPermissions.enabledFor(defaultPermissions));
-            }
-
-            if (!object.isNull("contexts"))
-            {
-                data.setContexts(object.getArray("contexts")
-                        .stream(DataArray::getString)
-                        .map(InteractionContextType::fromKey)
-                        .collect(Helpers.toUnmodifiableEnumSet(InteractionContextType.class)));
-            }
-            else if (!object.isNull("dm_permission"))
-                data.setGuildOnly(!object.getBoolean("dm_permission"));
-            else
-                data.setContexts(Helpers.unmodifiableEnumSet(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
-
-            if (!object.isNull("integration_types"))
-            {
-                data.setIntegrationTypes(object.getArray("integration_types")
-                        .stream(DataArray::getString)
-                        .map(IntegrationType::fromKey)
-                        .collect(Helpers.toUnmodifiableEnumSet(IntegrationType.class)));
-            }
-            else
-                data.setIntegrationTypes(Helpers.unmodifiableEnumSet(IntegrationType.GUILD_INSTALL));
-
-            data.setNSFW(object.getBoolean("nsfw"));
-            data.setNameLocalizations(LocalizationUtils.mapFromProperty(object, "name_localizations"));
-            data.setDescriptionLocalizations(LocalizationUtils.mapFromProperty(object, "description_localizations"));
+        case SLASH:
+            return SlashCommandData.fromData(object);
+        case USER:
+        case MESSAGE:
+        {
+            CommandDataImpl data = new CommandDataImpl(commandType, object.getString("name"));
+            CommandDataImpl.applyBaseData(data, object);
             return data;
         }
+        case PRIMARY_ENTRY_POINT:
+            return PrimaryEntryPointCommandData.fromData(object);
+        }
 
-        return SlashCommandData.fromData(object);
+        throw new UnsupportedOperationException("Cannot create a command from an unknown type: " + rawType);
     }
 }

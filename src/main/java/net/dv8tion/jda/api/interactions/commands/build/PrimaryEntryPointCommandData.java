@@ -24,12 +24,10 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IDescribedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
-import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import net.dv8tion.jda.internal.interactions.PrimaryEntryPointCommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
-import net.dv8tion.jda.internal.utils.Helpers;
-import net.dv8tion.jda.internal.utils.localization.LocalizationUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -172,48 +170,17 @@ public interface PrimaryEntryPointCommandData extends CommandData, IDescribedCom
     {
         Checks.notNull(object, "DataObject");
 
-        Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
-        Checks.check(commandType == Command.Type.PRIMARY_ENTRY_POINT, "Cannot convert command of type " + commandType + " to EntryPointCommandData!");
-
         String name = object.getString("name");
-        String description = object.getString("description");
-        PrimaryEntryPointCommandDataImpl command = new PrimaryEntryPointCommandDataImpl(name, description);
-        if (!object.isNull("contexts"))
-        {
-            command.setContexts(object.getArray("contexts")
-                    .stream(DataArray::getString)
-                    .map(InteractionContextType::fromKey)
-                    .collect(Helpers.toUnmodifiableEnumSet(InteractionContextType.class)));
-        }
-        else if (!object.isNull("dm_permission"))
-            command.setGuildOnly(!object.getBoolean("dm_permission"));
-        else
-            command.setContexts(Helpers.unmodifiableEnumSet(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
+        Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
+        Checks.check(commandType == Command.Type.PRIMARY_ENTRY_POINT, "Cannot convert command '" + name + "' of type " + commandType + " to PrimaryEntryPointCommandData!");
 
-        if (!object.isNull("integration_types"))
-        {
-            command.setIntegrationTypes(object.getArray("integration_types")
-                    .stream(DataArray::getString)
-                    .map(IntegrationType::fromKey)
-                    .collect(Helpers.toUnmodifiableEnumSet(IntegrationType.class)));
-        }
-        else
-            command.setIntegrationTypes(Helpers.unmodifiableEnumSet(IntegrationType.GUILD_INSTALL));
+        PrimaryEntryPointCommandDataImpl data = new PrimaryEntryPointCommandDataImpl(name);
 
-        command.setNSFW(object.getBoolean("nsfw"));
+        CommandDataImpl.applyBaseData(data, object);
+        CommandDataImpl.applyDescribedCommandData(data, object);
 
-        command.setDefaultPermissions(
-                object.isNull("default_member_permissions")
-                        ? DefaultMemberPermissions.ENABLED
-                        : DefaultMemberPermissions.enabledFor(object.getLong("default_member_permissions"))
-        );
-
-        command.setNameLocalizations(LocalizationUtils.mapFromProperty(object, "name_localizations"));
-        command.setDescriptionLocalizations(LocalizationUtils.mapFromProperty(object, "description_localizations"));
-
-        command.setHandler(Handler.fromValue(object.getLong("handler")));
-
-        return command;
+        data.setHandler(Handler.fromValue(object.getLong("handler")));
+        return data;
     }
 
     /**
