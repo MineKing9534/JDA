@@ -770,7 +770,7 @@ public interface JDA extends IGuildChannelContainer<Channel>
     @CheckReturnValue
     default CommandCreateAction upsertCommand(@Nonnull String name, @Nonnull String description)
     {
-        return (CommandCreateAction) upsertCommand(new CommandDataImpl(name, description));
+        return (CommandCreateAction) upsertCommand(new CommandDataImpl(Command.Type.SLASH, name, description));
     }
 
     /**

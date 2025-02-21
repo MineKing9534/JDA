@@ -72,7 +72,7 @@ public class Commands
     @Nonnull
     public static SlashCommandData slash(@Nonnull String name, @Nonnull String description)
     {
-        return new CommandDataImpl(name, description);
+        return new CommandDataImpl(Command.Type.SLASH, name, description);
     }
 
     /**

@@ -59,9 +59,9 @@ public class CommandDataImpl implements SlashCommandData, IDescribedCommandDataM
 
     private final Command.Type type;
 
-    public CommandDataImpl(@Nonnull String name, @Nonnull String description)
+    public CommandDataImpl(@Nonnull Command.Type type, @Nonnull String name, @Nonnull String description)
     {
-        this.type = Command.Type.SLASH;
+        this.type = type;
         setName(name);
         setDescription(description);
     }
@@ -70,7 +70,7 @@ public class CommandDataImpl implements SlashCommandData, IDescribedCommandDataM
     {
         this.type = type;
         Checks.notNull(type, "Command Type");
-        Checks.check(type != Command.Type.SLASH, "Cannot create slash command without description. Use `new CommandDataImpl(name, description)` instead.");
+        Checks.check(type != Command.Type.SLASH && type != Command.Type.PRIMARY_ENTRY_POINT, "Cannot create slash command without description. Use `new CommandDataImpl(name, description)` instead.");
         setName(name);
     }
 

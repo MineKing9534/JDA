@@ -561,7 +561,7 @@ public interface SlashCommandData extends CommandData, IDescribedCommandData
         if (command.getType() != Command.Type.SLASH)
             throw new IllegalArgumentException("Cannot convert command of type " + command.getType() + " to SlashCommandData!");
 
-        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, command.getName());
+        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, command.getName(), command.getDescription());
         CommandDataImpl.applyBaseData(data, command);
         CommandDataImpl.applyDescribedCommandData(data, command);
 
@@ -605,7 +605,7 @@ public interface SlashCommandData extends CommandData, IDescribedCommandData
         Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
         Checks.check(commandType == Command.Type.SLASH, "Cannot convert command '" + name + "' of type " + commandType + " to SlashCommandData!");
 
-        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, name);
+        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, name, object.getString("description"));
 
         CommandDataImpl.applyBaseData(data, object);
         CommandDataImpl.applyDescribedCommandData(data, object);

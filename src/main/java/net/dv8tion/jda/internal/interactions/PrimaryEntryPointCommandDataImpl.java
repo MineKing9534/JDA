@@ -37,13 +37,7 @@ public class PrimaryEntryPointCommandDataImpl
 
     public PrimaryEntryPointCommandDataImpl(@Nonnull String name, @Nonnull String description)
     {
-        super(Command.Type.PRIMARY_ENTRY_POINT, name);
-        setDescription(description);
-    }
-
-    public PrimaryEntryPointCommandDataImpl(@Nonnull String name)
-    {
-        super(Command.Type.PRIMARY_ENTRY_POINT, name);
+        super(Command.Type.PRIMARY_ENTRY_POINT, name, description);
     }
 
     @Nonnull
