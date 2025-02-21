@@ -82,6 +82,7 @@ public interface PrimaryEntryPointCommandData
 
     @Nonnull
     @Override
+    @Deprecated
     PrimaryEntryPointCommandData setGuildOnly(boolean guildOnly);
 
     @Nonnull

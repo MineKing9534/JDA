@@ -17,7 +17,6 @@
 package net.dv8tion.jda.api.interactions.commands.build.attributes;
 
 import net.dv8tion.jda.api.interactions.DiscordLocale;
-import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
 
@@ -28,7 +27,7 @@ import java.util.Map;
  * Builder for describable Application Commands.
  *
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
- * @see PrimaryEntryPointCommandData
+ * @see net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData
  */
 public interface IDescribedCommandData extends INamedCommandData
 {
