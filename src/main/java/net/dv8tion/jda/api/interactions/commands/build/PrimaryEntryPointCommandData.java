@@ -139,14 +139,10 @@ public interface PrimaryEntryPointCommandData extends CommandData, IDescribedCom
         if (command.getType() != Command.Type.PRIMARY_ENTRY_POINT)
             throw new IllegalArgumentException("Cannot convert command of type " + command.getType() + " to EntryPointCommandData!");
 
-        PrimaryEntryPointCommandDataImpl data = new PrimaryEntryPointCommandDataImpl(command.getName(), command.getDescription());
-        data.setContexts(command.getContexts());
-        data.setIntegrationTypes(command.getIntegrationTypes());
-        data.setNSFW(command.isNSFW());
-        data.setDefaultPermissions(command.getDefaultPermissions());
-        //Command localizations are unmodifiable, make a copy
-        data.setNameLocalizations(command.getNameLocalizations().toMap());
-        data.setDescriptionLocalizations(command.getDescriptionLocalizations().toMap());
+        PrimaryEntryPointCommandDataImpl data = new PrimaryEntryPointCommandDataImpl(command.getName());
+        CommandDataImpl.applyBaseData(data, command);
+        CommandDataImpl.applyDescribedCommandData(data, command);
+
         data.setHandler(command.getHandler());
         return data;
     }

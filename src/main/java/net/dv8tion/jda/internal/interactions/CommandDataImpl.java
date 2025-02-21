@@ -466,9 +466,25 @@ public class CommandDataImpl implements SlashCommandData, IDescribedCommandDataM
         data.setNameLocalizations(LocalizationUtils.mapFromProperty(object, "name_localizations"));
     }
 
+    public static void applyBaseData(CommandDataImpl data, Command command)
+    {
+        data.setDefaultPermissions(command.getDefaultPermissions());
+        data.setContexts(command.getContexts());
+        data.setIntegrationTypes(command.getIntegrationTypes());
+        data.setNSFW(command.isNSFW());
+        //Command localizations are unmodifiable, make a copy
+        data.setNameLocalizations(command.getNameLocalizations().toMap());
+    }
+
     public static void applyDescribedCommandData(CommandDataImpl data, DataObject object)
     {
         data.setDescription(object.getString("description"));
         data.setDescriptionLocalizations(LocalizationUtils.mapFromProperty(object, "description_localizations"));
+    }
+
+    public static void applyDescribedCommandData(CommandDataImpl data, Command command)
+    {
+        data.setDescription(command.getDescription());
+        data.setDescriptionLocalizations(command.getDescriptionLocalizations().toMap());
     }
 }

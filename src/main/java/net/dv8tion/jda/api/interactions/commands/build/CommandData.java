@@ -100,18 +100,22 @@ public interface CommandData
     static CommandData fromCommand(@Nonnull Command command)
     {
         Checks.notNull(command, "Command");
-        if (command.getType() != Command.Type.SLASH)
+        switch (command.getType())
         {
-            final CommandDataImpl data = new CommandDataImpl(command.getType(), command.getName());
-            return data.setDefaultPermissions(command.getDefaultPermissions())
-                    .setContexts(command.getContexts())
-                    .setIntegrationTypes(command.getIntegrationTypes())
-                    .setNSFW(command.isNSFW())
-                    .setNameLocalizations(command.getNameLocalizations().toMap())
-                    .setDescriptionLocalizations(command.getDescriptionLocalizations().toMap());
+        case SLASH:
+            return SlashCommandData.fromCommand(command);
+        case USER:
+        case MESSAGE:
+        {
+            CommandDataImpl data = new CommandDataImpl(command.getType(), command.getName());
+            CommandDataImpl.applyBaseData(data, command);
+            return data;
+        }
+        case PRIMARY_ENTRY_POINT:
+            return PrimaryEntryPointCommandData.fromCommand(command);
         }
 
-        return SlashCommandData.fromCommand(command);
+        throw new UnsupportedOperationException("Cannot create a command from an unknown type: " + command.getType());
     }
 
     /**

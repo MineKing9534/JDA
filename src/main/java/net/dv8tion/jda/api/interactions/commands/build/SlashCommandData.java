@@ -561,14 +561,10 @@ public interface SlashCommandData extends CommandData, IDescribedCommandData
         if (command.getType() != Command.Type.SLASH)
             throw new IllegalArgumentException("Cannot convert command of type " + command.getType() + " to SlashCommandData!");
 
-        CommandDataImpl data = new CommandDataImpl(command.getName(), command.getDescription());
-        data.setContexts(command.getContexts());
-        data.setIntegrationTypes(command.getIntegrationTypes());
-        data.setNSFW(command.isNSFW());
-        data.setDefaultPermissions(command.getDefaultPermissions());
-        //Command localizations are unmodifiable, make a copy
-        data.setNameLocalizations(command.getNameLocalizations().toMap());
-        data.setDescriptionLocalizations(command.getDescriptionLocalizations().toMap());
+        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, command.getName());
+        CommandDataImpl.applyBaseData(data, command);
+        CommandDataImpl.applyDescribedCommandData(data, command);
+
         command.getOptions()
                 .stream()
                 .map(OptionData::fromOption)
@@ -609,7 +605,7 @@ public interface SlashCommandData extends CommandData, IDescribedCommandData
         Command.Type commandType = Command.Type.fromId(object.getInt("type", 1));
         Checks.check(commandType == Command.Type.SLASH, "Cannot convert command '" + name + "' of type " + commandType + " to SlashCommandData!");
 
-        CommandDataImpl data = new CommandDataImpl(name, "");
+        CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, name);
 
         CommandDataImpl.applyBaseData(data, object);
         CommandDataImpl.applyDescribedCommandData(data, object);
