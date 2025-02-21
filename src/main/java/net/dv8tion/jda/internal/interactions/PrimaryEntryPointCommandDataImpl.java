@@ -23,239 +23,139 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
-import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.dv8tion.jda.internal.interactions.command.localization.LocalizationMapper;
-import net.dv8tion.jda.internal.interactions.mixin.attributes.IDescribedCommandDataMixin;
-import net.dv8tion.jda.internal.utils.Checks;
-import net.dv8tion.jda.internal.utils.Helpers;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class PrimaryEntryPointCommandDataImpl implements PrimaryEntryPointCommandData, IDescribedCommandDataMixin
+public class PrimaryEntryPointCommandDataImpl
+        extends CommandDataImpl
+        implements PrimaryEntryPointCommandData
 {
-    protected String name, description = "";
-    private LocalizationMapper localizationMapper;
-    private final LocalizationMap nameLocalizations = new LocalizationMap(this::checkName);
-    private final LocalizationMap descriptionLocalizations = new LocalizationMap(this::checkDescription);
-
-    private EnumSet<InteractionContextType> contexts = EnumSet.of(InteractionContextType.GUILD, InteractionContextType.BOT_DM);
-    private EnumSet<IntegrationType> integrationTypes = EnumSet.of(IntegrationType.GUILD_INSTALL);
-    private boolean nsfw = false;
-    private DefaultMemberPermissions defaultMemberPermissions = DefaultMemberPermissions.ENABLED;
     private Handler handler;
 
     public PrimaryEntryPointCommandDataImpl(@Nonnull String name, @Nonnull String description)
     {
-        setName(name);
+        super(Command.Type.PRIMARY_ENTRY_POINT, name);
         setDescription(description);
+    }
+
+    public PrimaryEntryPointCommandDataImpl(@Nonnull String name)
+    {
+        super(Command.Type.PRIMARY_ENTRY_POINT, name);
     }
 
     @Nonnull
     @Override
     public DataObject toData()
     {
-        if (localizationMapper != null) localizationMapper.localizeCommand(this, DataArray.empty());
-
-        return DataObject.empty()
-                .put("type", getType().getId())
-                .put("handler", handler.getValue())
-                .put("name", name)
-                .put("description", description)
-                .put("description_localizations", descriptionLocalizations)
-                .put("nsfw", nsfw)
-                .put("contexts", contexts.stream().map(InteractionContextType::getType).collect(Collectors.toList()))
-                .put("integration_types", integrationTypes.stream().map(IntegrationType::getType).collect(Collectors.toList()))
-                .put("default_member_permissions", defaultMemberPermissions == DefaultMemberPermissions.ENABLED
-                        ? null
-                        : Long.toUnsignedString(defaultMemberPermissions.getPermissionsRaw()))
-                .put("name_localizations", nameLocalizations);
-    }
-
-    @Nonnull
-    @Override
-    public Command.Type getType()
-    {
-        return Command.Type.PRIMARY_ENTRY_POINT;
-    }
-
-    @Nonnull
-    @Override
-    public DefaultMemberPermissions getDefaultPermissions()
-    {
-        return defaultMemberPermissions;
-    }
-
-    @Override
-    public boolean isGuildOnly()
-    {
-        return contexts.size() == 1 && contexts.contains(InteractionContextType.GUILD);
-    }
-
-    @Nonnull
-    @Override
-    public EnumSet<InteractionContextType> getContexts()
-    {
-        return contexts;
-    }
-
-    @Nonnull
-    @Override
-    public EnumSet<IntegrationType> getIntegrationTypes()
-    {
-        return integrationTypes;
-    }
-
-    @Override
-    public boolean isNSFW()
-    {
-        return nsfw;
+        return super.toData()
+                .put("handler", handler.getValue());
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setDefaultPermissions(@Nonnull DefaultMemberPermissions permissions)
     {
-        Checks.notNull(permissions, "Permissions");
-        this.defaultMemberPermissions = permissions;
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setDefaultPermissions(permissions);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setGuildOnly(boolean guildOnly)
     {
-        setContexts(guildOnly
-                ? EnumSet.of(InteractionContextType.GUILD)
-                : EnumSet.of(InteractionContextType.GUILD, InteractionContextType.BOT_DM));
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setGuildOnly(guildOnly);
+    }
+
+    @Nonnull
+    @Override
+    public PrimaryEntryPointCommandDataImpl setContexts(@Nonnull InteractionContextType... contexts)
+    {
+        return (PrimaryEntryPointCommandDataImpl) super.setContexts(contexts);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setContexts(@Nonnull Collection<InteractionContextType> contexts)
     {
-        Checks.notEmpty(contexts, "Contexts");
-        this.contexts = Helpers.copyEnumSet(InteractionContextType.class, contexts);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setContexts(contexts);
+    }
+
+    @Nonnull
+    @Override
+    public PrimaryEntryPointCommandDataImpl setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
+    {
+        return (PrimaryEntryPointCommandDataImpl) super.setIntegrationTypes(integrationTypes);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setIntegrationTypes(@Nonnull Collection<IntegrationType> integrationTypes)
     {
-        Checks.notEmpty(contexts, "Contexts");
-        this.integrationTypes = Helpers.copyEnumSet(IntegrationType.class, integrationTypes);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setIntegrationTypes(integrationTypes);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setNSFW(boolean nsfw)
     {
-        this.nsfw = nsfw;
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setNSFW(nsfw);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction) {
-        Checks.notNull(localizationFunction, "Localization function");
-
-        this.localizationMapper = LocalizationMapper.fromFunction(localizationFunction);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setLocalizationFunction(localizationFunction);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setName(@Nonnull String name)
     {
-        checkName(name);
-        this.name = name;
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setName(name);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name)
     {
-        //Checks are done in LocalizationMap
-        nameLocalizations.setTranslation(locale, name);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setNameLocalization(locale, name);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setNameLocalizations(@Nonnull Map<DiscordLocale, String> map)
     {
-        nameLocalizations.setTranslations(map);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setNameLocalizations(map);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setDescription(@Nonnull String description)
     {
-        checkDescription(description);
-        this.description = description;
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setDescription(description);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setDescriptionLocalization(@Nonnull DiscordLocale locale, @Nonnull String description)
     {
-        //Checks are done in LocalizationMap
-        descriptionLocalizations.setTranslation(locale, description);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setDescriptionLocalization(locale, description);
     }
 
     @Nonnull
     @Override
     public PrimaryEntryPointCommandDataImpl setDescriptionLocalizations(@Nonnull Map<DiscordLocale, String> map)
     {
-        descriptionLocalizations.setTranslations(map);
-        return this;
+        return (PrimaryEntryPointCommandDataImpl) super.setDescriptionLocalizations(map);
     }
 
     @Nonnull
     @Override
-    public PrimaryEntryPointCommandData setHandler(@Nonnull Handler handler)
+    public PrimaryEntryPointCommandDataImpl setHandler(@Nonnull Handler handler)
     {
         this.handler = handler;
         return this;
-    }
-
-    @Nonnull
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Nonnull
-    @Override
-    public LocalizationMap getNameLocalizations()
-    {
-        return nameLocalizations;
-    }
-
-    @Nonnull
-    @Override
-    public String getDescription()
-    {
-        return description;
-    }
-
-    @Nonnull
-    @Override
-    public LocalizationMap getDescriptionLocalizations()
-    {
-        return descriptionLocalizations;
     }
 }
