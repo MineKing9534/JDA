@@ -21,12 +21,11 @@ import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.build.attributes.*;
+import net.dv8tion.jda.api.interactions.commands.build.attributes.IDescribedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.requests.restaction.GlobalCommandListUpdateAction;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.interactions.PrimaryEntryPointCommandDataImpl;
 import net.dv8tion.jda.internal.utils.Checks;
 import net.dv8tion.jda.internal.utils.Helpers;
@@ -44,9 +43,7 @@ import java.util.Map;
  *
  * @see Commands#primaryEntryPoint(String, String)
  */
-public interface PrimaryEntryPointCommandData
-        extends IDescribedCommandData, INamedCommandData, IScopedCommandData, IPermissionRestrictedCommandData,
-        IAgeRestrictedCommandData, SerializableData
+public interface PrimaryEntryPointCommandData extends CommandData, IDescribedCommandData
 {
     @Nonnull
     @Override
@@ -89,7 +86,7 @@ public interface PrimaryEntryPointCommandData
     @Override
     default PrimaryEntryPointCommandData setContexts(@Nonnull InteractionContextType... contexts)
     {
-        return (PrimaryEntryPointCommandData) IScopedCommandData.super.setContexts(contexts);
+        return (PrimaryEntryPointCommandData) CommandData.super.setContexts(contexts);
     }
 
     @Nonnull
@@ -100,7 +97,7 @@ public interface PrimaryEntryPointCommandData
     @Override
     default PrimaryEntryPointCommandData setIntegrationTypes(@Nonnull IntegrationType... integrationTypes)
     {
-        return (PrimaryEntryPointCommandData) IScopedCommandData.super.setIntegrationTypes(integrationTypes);
+        return (PrimaryEntryPointCommandData) CommandData.super.setIntegrationTypes(integrationTypes);
     }
 
     @Nonnull
