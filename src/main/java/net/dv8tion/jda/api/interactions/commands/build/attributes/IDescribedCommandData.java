@@ -29,7 +29,7 @@ import java.util.Map;
  * @see net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
  * @see net.dv8tion.jda.api.interactions.commands.build.PrimaryEntryPointCommandData
  */
-public interface IDescribedCommandData extends INamedCommandData
+public interface IDescribedCommandData extends ILocalizedCommandData
 {
     /**
      * The maximum length the description of a command can be. ({@value})
@@ -37,20 +37,7 @@ public interface IDescribedCommandData extends INamedCommandData
     int MAX_DESCRIPTION_LENGTH = 100;
 
     @Nonnull
-    @Override
     IDescribedCommandData setLocalizationFunction(@Nonnull LocalizationFunction localizationFunction);
-
-    @Nonnull
-    @Override
-    IDescribedCommandData setName(@Nonnull String name);
-
-    @Nonnull
-    @Override
-    IDescribedCommandData setNameLocalization(@Nonnull DiscordLocale locale, @Nonnull String name);
-
-    @Nonnull
-    @Override
-    IDescribedCommandData setNameLocalizations(@Nonnull Map<DiscordLocale, String> map);
 
     /**
      * Configure the description

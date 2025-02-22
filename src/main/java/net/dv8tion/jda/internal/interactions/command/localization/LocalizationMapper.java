@@ -18,8 +18,8 @@ package net.dv8tion.jda.internal.interactions.command.localization;
 
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.attributes.IDescribedCommandData;
-import net.dv8tion.jda.api.interactions.commands.build.attributes.INamedCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationMap;
 import net.dv8tion.jda.api.utils.data.DataArray;
@@ -68,7 +68,7 @@ public class LocalizationMapper
         return new LocalizationMapper(localizationFunction);
     }
 
-    public void localizeCommand(INamedCommandData commandData, DataArray optionArray)
+    public void localizeCommand(CommandData commandData, DataArray optionArray)
     {
         final TranslationContext ctx = new TranslationContext();
         ctx.withKey(commandData.getName(), () ->
