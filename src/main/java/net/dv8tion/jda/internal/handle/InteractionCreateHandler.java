@@ -20,10 +20,7 @@ import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.*;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -118,6 +115,11 @@ public class InteractionCreateHandler extends SocketHandler
             api.handleEvent(
                 new UserContextInteractionEvent(api, responseNumber,
                     new UserContextInteractionImpl(api, content)));
+            break;
+        case PRIMARY_ENTRY_POINT:
+            api.handleEvent(
+                    new PrimaryEntryPointInteractionEvent(api, responseNumber,
+                            new PrimaryEntryPointInteractionImpl(api, content)));
             break;
         }
     }
