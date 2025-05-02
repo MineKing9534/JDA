@@ -41,6 +41,7 @@ public interface InteractionCallbackAction<T> extends RestAction<T>
 
     /**
      * The possible types of interaction responses.
+     * <br>This is currently only used internally to reduce interface complexity.
      */
     enum ResponseType
     {
@@ -64,6 +65,8 @@ public interface InteractionCallbackAction<T> extends RestAction<T>
          */
         @Deprecated
         PREMIUM_REQUIRED(10),
+        /** Launch the app's activity */
+        LAUNCH_ACTIVITY(12),
         /** Placeholder for unknown types */
         UNKNOWN(-1),
         ;

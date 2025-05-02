@@ -55,6 +55,8 @@ public class CommandEditActionImpl extends RestActionImpl<Command> implements Co
     private static final int INTERACTION_CONTEXTS_SET = 1 << 6;
     private static final int INTEGRATION_TYPES_SET    = 1 << 7;
     private final Guild guild;
+    private int mask = 0;
+    private CommandDataImpl data = new CommandDataImpl(Command.Type.SLASH, UNDEFINED, UNDEFINED);
 
     private int mask;
     private CommandDataImpl data;
