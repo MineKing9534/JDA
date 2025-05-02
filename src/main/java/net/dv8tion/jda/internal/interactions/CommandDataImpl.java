@@ -77,7 +77,7 @@ public class CommandDataImpl implements SlashCommandData
     public static CommandDataImpl of(@Nonnull Command.Type type, @Nonnull String name, @Nullable String description)
     {
         if (type == Command.Type.SLASH)
-            return new CommandDataImpl(name, description);
+            return new CommandDataImpl(type, name, description);
         return new CommandDataImpl(type, name);
     }
 
