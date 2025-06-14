@@ -284,7 +284,7 @@ public interface TextInput extends ActionComponent, ActionRowChildComponent
          * @return The same Builder for chaining convenience.
          */
         @Nonnull
-        public Builder setStyle(TextInputStyle style)
+        public Builder setStyle(@Nonnull TextInputStyle style)
         {
             Checks.notNull(style, "Style");
             Checks.check(style != TextInputStyle.UNKNOWN, "TextInputStyle cannot be UNKNOWN!");

@@ -625,7 +625,7 @@ public interface Command extends ISnowflake, ICommandReference
         }
 
         @Nonnull
-        public DataObject toData(OptionType optionType)
+        public DataObject toData(@Nonnull OptionType optionType)
         {
             final Object value;
             if (optionType == OptionType.INTEGER)
