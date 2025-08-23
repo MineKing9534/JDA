@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.unions.GuildMessageChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.interactions.ICustomIdInteraction;
+import net.dv8tion.jda.api.interactions.callbacks.ILaunchActivityCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
@@ -39,7 +40,7 @@ import java.util.List;
  *
  * @see    net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
  */
-public interface ModalInteraction extends IReplyCallback, IMessageEditCallback, ICustomIdInteraction
+public interface ModalInteraction extends IReplyCallback, IMessageEditCallback, ICustomIdInteraction, ILaunchActivityCallback
 {
 
     @Override
