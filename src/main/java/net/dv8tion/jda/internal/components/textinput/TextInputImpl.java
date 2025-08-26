@@ -138,7 +138,8 @@ public class TextInputImpl
                     .put("custom_id", id)
                     .put("style", style.getRaw())
                     .put("required", required);
-
+        if (uniqueId >= 0)
+            obj.put("id", uniqueId);
         if (minLength != -1)
             obj.put("min_length", minLength);
         if (maxLength != -1)
