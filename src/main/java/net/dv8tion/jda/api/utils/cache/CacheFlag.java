@@ -63,9 +63,9 @@ public enum CacheFlag
     /**
      * Enables cache for {@link Guild#getSoundboardSoundCache()}
      *
-     * <p>Requires {@link net.dv8tion.jda.api.requests.GatewayIntent#GUILD_EMOJIS_AND_STICKERS GUILD_EMOJIS_AND_STICKERS} intent to be enabled.
+     * <p>Requires {@link net.dv8tion.jda.api.requests.GatewayIntent#GUILD_EXPRESSIONS GUILD_EXPRESSIONS} intent to be enabled.
      */
-    SOUNDBOARD_SOUNDS(GatewayIntent.GUILD_EMOJIS_AND_STICKERS),
+    SOUNDBOARD_SOUNDS(GatewayIntent.GUILD_EXPRESSIONS),
     /**
      * Enables cache for {@link Member#getOnlineStatus(net.dv8tion.jda.api.entities.ClientType) Member.getOnlineStatus(ClientType)}
      *
