@@ -17,6 +17,7 @@
 package net.dv8tion.jda.internal.components.textdisplay;
 
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.ModalTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.container.ContainerChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionContentComponentUnion;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
@@ -30,7 +31,8 @@ import java.util.Objects;
 
 public class TextDisplayImpl
         extends AbstractComponentImpl
-        implements TextDisplay, MessageTopLevelComponentUnion, ContainerChildComponentUnion, SectionContentComponentUnion
+        implements TextDisplay, MessageTopLevelComponentUnion, ModalTopLevelComponentUnion,
+        ContainerChildComponentUnion, SectionContentComponentUnion
 {
     private final int uniqueId;
     private final String content;
@@ -38,7 +40,7 @@ public class TextDisplayImpl
     public TextDisplayImpl(DataObject data)
     {
         this(
-                data.getInt("id"),
+                data.getInt("id", -1),
                 data.getString("content")
         );
     }

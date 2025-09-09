@@ -101,13 +101,6 @@ public interface StringSelectMenu extends SelectMenu, LabelChildComponent
     List<SelectOption> getOptions();
 
     /**
-     * Whether the user must populate this select menu in Modals.
-     *
-     * @return Whether this menu must be populated
-     */
-    boolean isRequired();
-
-    /**
      * Creates a new preconfigured {@link Builder} with the same settings used for this select menu.
      * <br>This can be useful to create an updated version of this menu without needing to rebuild it from scratch.
      *

@@ -40,9 +40,9 @@ public class StringSelectMenuImpl extends SelectMenuImpl implements StringSelect
         this.required = data.getBoolean("required", true);
     }
 
-    public StringSelectMenuImpl(String id, int uniqueId, String placeholder, int minValues, int maxValues, boolean disabled, List<SelectOption> options, boolean required)
+    public StringSelectMenuImpl(String id, int uniqueId, String placeholder, int minValues, int maxValues, boolean disabled, List<SelectOption> options, Boolean required)
     {
-        super(id, uniqueId, placeholder, minValues, maxValues, disabled);
+        super(id, uniqueId, placeholder, minValues, maxValues, disabled, required);
         this.options = options;
         this.required = required;
     }
@@ -78,7 +78,7 @@ public class StringSelectMenuImpl extends SelectMenuImpl implements StringSelect
     }
 
     @Override
-    public boolean isRequired()
+    public Boolean isRequired()
     {
         return required;
     }
@@ -112,6 +112,7 @@ public class StringSelectMenuImpl extends SelectMenuImpl implements StringSelect
                 && minValues == other.getMinValues()
                 && maxValues == other.getMaxValues()
                 && disabled == other.isDisabled()
-                && Objects.equals(options, other.getOptions());
+                && Objects.equals(options, other.getOptions())
+                && Objects.equals(required, other.isRequired());
     }
 }

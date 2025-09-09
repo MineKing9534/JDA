@@ -47,7 +47,7 @@ plugins {
 ////////////////////////////////////
 
 projectEnvironment {
-    version = Version(major = "6", minor = "0", revision = "0", classifier = "rc.3")
+    version = Version(major = "6", minor = "0", revision = "0", classifier = "rc.4")
 }
 
 artifactFilters {
@@ -365,6 +365,12 @@ tasks.named("processTestResources").configure {
 
 
 tasks.register<Test>("updateTestSnapshots") {
+    group = "verification"
+    useJUnitPlatform()
+
+    testClassesDirs = sourceSets.test.get().output.classesDirs
+    classpath = sourceSets.test.get().runtimeClasspath
+
     systemProperty("updateSnapshots", "true")
 }
 
@@ -428,10 +434,9 @@ fun MavenPom.populate() {
     }
 }
 
-// Skip fat jar publication (See https://github.com/johnrengelman/shadow/issues/586)
-components.java.withVariantsFromConfiguration(configurations.shadowRuntimeElements.get()) { skip() }
-val SoftwareComponentContainer.java
-    get() = components.getByName<AdhocComponentWithVariants>("java")
+shadow {
+    addShadowVariantIntoJavaComponent = false
+}
 
 val stagingDirectory = layout.buildDirectory.dir("staging-deploy").get()
 

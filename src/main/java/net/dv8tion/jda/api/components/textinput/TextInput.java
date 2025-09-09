@@ -18,7 +18,7 @@ package net.dv8tion.jda.api.components.textinput;
 
 import net.dv8tion.jda.annotations.ForRemoval;
 import net.dv8tion.jda.annotations.ReplaceWith;
-import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.attribute.ICustomId;
 import net.dv8tion.jda.api.components.label.LabelChildComponent;
 import net.dv8tion.jda.internal.components.textinput.TextInputImpl;
 import net.dv8tion.jda.internal.utils.Checks;
@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  *
  * <p>Must be used inside {@link net.dv8tion.jda.api.components.label.Label Labels} only!
  */
-public interface TextInput extends ActionComponent, LabelChildComponent
+public interface TextInput extends ICustomId, LabelChildComponent
 {
     /**
      * The maximum length a TextInput value can have. ({@value})
@@ -114,33 +114,6 @@ public interface TextInput extends ActionComponent, LabelChildComponent
     @Nullable
     String getPlaceHolder();
 
-    @Override
-    default boolean isDisabled()
-    {
-        return false;
-    }
-
-    @Nonnull
-    @Override
-    default TextInput asDisabled()
-    {
-        return (TextInput) ActionComponent.super.asDisabled();
-    }
-
-    @Nonnull
-    @Override
-    default TextInput asEnabled()
-    {
-        return (TextInput) ActionComponent.super.asEnabled();
-    }
-
-    @Nonnull
-    @Override
-    default TextInput withDisabled(boolean disabled)
-    {
-        throw new UnsupportedOperationException("TextInputs cannot be disabled!");
-    }
-
     @Nonnull
     @Override
     TextInput withUniqueId(int uniqueId);
@@ -167,12 +140,36 @@ public interface TextInput extends ActionComponent, LabelChildComponent
      *             <li>If id is longer than {@value #MAX_ID_LENGTH} characters</li>
      *         </ul>
      *
-     * @return a new TextInput Builder.
+     * @return The new TextInput Builder.
      */
     @Nonnull
     static TextInput.Builder create(@Nonnull String id, @Nonnull TextInputStyle style)
     {
         return new Builder(id, style);
+    }
+
+    /**
+     * Creates a new TextInput.
+     * <br>This is a shortcut for {@code TextInput.create(id, style).build()}.
+     *
+     * @param  id
+     *         The custom id
+     * @param  style
+     *         The {@link TextInputStyle TextInputStyle}
+     *
+     * @throws IllegalArgumentException
+     *         <ul>
+     *             <li>If id is null or blank</li>
+     *             <li>If style is null or {@link TextInputStyle#UNKNOWN UNKNOWN}</li>
+     *             <li>If id is longer than {@value #MAX_ID_LENGTH} characters</li>
+     *         </ul>
+     *
+     * @return The new TextInput instance.
+     */
+    @Nonnull
+    static TextInput of(@Nonnull String id, @Nonnull TextInputStyle style)
+    {
+        return TextInput.create(id, style).build();
     }
 
     /**
