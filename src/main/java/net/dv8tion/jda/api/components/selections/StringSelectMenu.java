@@ -18,7 +18,6 @@ package net.dv8tion.jda.api.components.selections;
 
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
-import net.dv8tion.jda.api.components.label.LabelChildComponent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenuInteraction;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectInteraction;
@@ -63,7 +62,7 @@ import java.util.stream.Collectors;
  * @see StringSelectInteraction
  * @see EntitySelectMenu
  */
-public interface StringSelectMenu extends SelectMenu, LabelChildComponent
+public interface StringSelectMenu extends SelectMenu
 {
     @Nonnull
     @Override
@@ -145,7 +144,6 @@ public interface StringSelectMenu extends SelectMenu, LabelChildComponent
     class Builder extends SelectMenu.Builder<StringSelectMenu, StringSelectMenu.Builder>
     {
         private final List<SelectOption> options = new ArrayList<>();
-        private boolean required = true;
 
         protected Builder(@Nonnull String customId)
         {
@@ -374,24 +372,6 @@ public interface StringSelectMenu extends SelectMenu, LabelChildComponent
         {
             Checks.noneNull(values, "Values");
             return setDefaultOptions(Arrays.asList(values));
-        }
-
-        /**
-         * Configure whether the user must populate this select menu.
-         * <br>Default: {@code true}
-         *
-         * <p>This only has an effect in Modals!
-         *
-         * @param required
-         *        Whether this menu is required
-         *
-         * @return The same builder instance for chaining
-         */
-        @Nonnull
-        public Builder setRequired(boolean required)
-        {
-            this.required = required;
-            return this;
         }
 
         /**
